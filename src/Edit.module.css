@@ -1,0 +1,84 @@
+/* Edit.module.css */
+.editContainer {
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 15px auto;
+    border-radius: 5px;
+    border: 1px solid #555;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+    display: block;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:focus {
+    outline: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.editContainer div {
+    margin-bottom: 10px;
+}
+
+.editContainer .todoStatus {
+    font-size: 14px;
+    color: #f39c12;
+}
+
+/* สไตล์ข้อความแจ้งเตือน */
+.successMessage {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.errorMessage {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+}
