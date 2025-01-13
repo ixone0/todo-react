@@ -1,4 +1,4 @@
-/* App.css */
+/* Global Styles */
 body {
   background-color: #181818;
   color: #dcdcdc;
@@ -11,6 +11,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
 }
 
 .app-container {
@@ -31,6 +32,85 @@ body {
   font-weight: bold;
 }
 
+/* Add Container Styles */
+.add-container {
+  background-color: #2a2a2a;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 1000;
+  width: 300px;
+  transition: height 0.3s ease, width 0.3s ease;
+  cursor: move; /* Cursor for dragging */
+  position: fixed;
+}
+
+.add-container.collapsed {
+  width: 50px; /* Size when collapsed */
+  height: 50px;
+  padding: 5px;
+}
+
+/* Collapse Button */a
+.collapse-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Form Elements */
+.add-container h3 {
+  color: #4caf50;
+  margin-bottom: 15px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.add-input {
+  width: calc(100% - 40px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: #fff;
+  font-size: 16px;
+  max-width: 270px;
+}
+
+.add-button {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+.add-button:hover {
+  background-color: #45a049;
+}
+
+.add-button:focus {
+  outline: none;
+}
+
+/* Todo Item Styles */
 .todo-item {
   background-color: #333;
   padding: 15px;
@@ -79,4 +159,16 @@ button:focus {
 
 a {
   text-decoration: none;
+}
+
+.success-message {
+  color: #4caf50;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: #f44336;
+  font-size: 14px;
+  margin-bottom: 10px;
 }

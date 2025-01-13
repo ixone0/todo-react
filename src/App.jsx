@@ -8,18 +8,48 @@ const BASE_URL = 'https://678247f2c51d092c3dcedd24.mockapi.io';
 function App() {
   const [todos, setTodos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [position, setPosition] = useState({ top: 20, right: 20 });
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const location = useLocation();
 
+  // Fetch todos from API
   async function fetchTodo() {
     try {
       const response = await axios.get(`${BASE_URL}/todos`);
       setTodos(response.data);
       setIsLoading(false);
     } catch (error) {
-      console.log('error', error);
+      console.error('Error fetching todos:', error);
     }
   }
 
+  // Add a new todo
+  async function addName(e) {
+    e.preventDefault();
+    const todoName = e.target.elements.todoName.value.trim();
+
+    if (!todoName) {
+      setErrorMessage('Todo name is required!');
+      setTimeout(() => setErrorMessage(''), 3000);
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${BASE_URL}/todos`, { name: todoName });
+      setTodos((prevTodos) => [...prevTodos, response.data]);
+      e.target.reset();
+      setSuccessMessage('Todo added successfully!');
+      setTimeout(() => setSuccessMessage(''), 3000);
+    } catch (error) {
+      console.error('Error adding todo:', error);
+      setErrorMessage('Failed to add todo!');
+      setTimeout(() => setErrorMessage(''), 3000);
+    }
+  }
+
+  // Delete a todo
   async function deleteTodo(id) {
     try {
       setIsLoading(true);
@@ -27,17 +57,21 @@ function App() {
       await fetchTodo();
       setIsLoading(false);
     } catch (error) {
-      console.log('error', error);
+      console.error('Error deleting todo:', error);
     }
   }
 
-  useEffect(() => {
-    fetchTodo();
-  }, []);
+  // Handle drag and repositioning of the add container
+  const handleDrag = (e) => {
+    const newPosition = {
+      top: e.clientY - e.target.offsetHeight / 2,
+      right: window.innerWidth - e.clientX - e.target.offsetWidth / 2,
+    };
+    setPosition(newPosition);
+  };
 
   useEffect(() => {
-    console.log('Location changed to:', location.pathname);
-    window.scrollTo(0, 0);
+    fetchTodo();
   }, []);
 
   return (
@@ -55,17 +89,43 @@ function App() {
                   <Link to={`/todo/${todo.id}`}>
                     <button>Edit</button>
                   </Link>
-                  <button
-                    onClick={async () => {
-                      await deleteTodo(todo.id);
-                    }}
-                  >
-                    Delete
-                  </button>
+                  <button onClick={() => deleteTodo(todo.id)}>Delete</button>
                 </div>
               </div>
             ))}
           </div>
+        )}
+      </div>
+
+      <div
+        className={`add-container ${isCollapsed ? 'collapsed' : ''}`}
+        style={{ top: `${position.top}px`, right: `${position.right}px`, position: 'fixed' }}
+        draggable
+        onDragEnd={handleDrag}
+      >
+        <button
+          className="collapse-button"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+        >
+          {isCollapsed ? '+' : '-'}
+        </button>
+        {!isCollapsed && (
+          <>
+            <h3>Add Todo</h3>
+            {successMessage && <div className="success-message">{successMessage}</div>}
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
+            <form onSubmit={addName}>
+              <input
+                type="text"
+                name="todoName"
+                placeholder="Enter todo name"
+                className="add-input"
+              />
+              <button type="submit" className="add-button">
+                Add
+              </button>
+            </form>
+          </>
         )}
       </div>
     </div>
