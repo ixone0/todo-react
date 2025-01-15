@@ -171,3 +171,9 @@ a {
   font-size: 14px;
   margin-bottom: 10px;
 }
+
+.todo-item.done p {
+  text-decoration: line-through;
+  color: rgba(0, 0, 0, 0.748);
+}
+

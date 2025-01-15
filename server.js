@@ -56,6 +56,10 @@ app.get('/todos/:id', (req, res) => {
     });
 });
 
+// API: Toggle todo completion status
+
+
+
 // API: Update a todo
 app.put('/todos/:id', (req, res) => {
     const { id } = req.params;
@@ -77,6 +81,24 @@ app.put('/todos/:id', (req, res) => {
     });
 });
 
+app.put('/todos/:id/toggle', (req, res) => {
+    const { id } = req.params;
+    console.log('Toggle request received for ID:', id); // Log the request
+
+    const sql = 'UPDATE todos SET is_done = NOT is_done WHERE id = ?'; 
+    db.query(sql, [id], (err, result) => {
+        if (err) {
+            console.error('Database error:', err); // Log any database errors
+            return res.status(500).send(err);
+        }
+        if (result.affectedRows === 0) {
+            console.log('No todo found with ID:', id); // Log if no rows were updated
+            return res.status(404).json({ error: 'Todo not found' });
+        }
+        console.log('Todo status toggled for ID:', id); // Log success
+        res.json({ message: 'Todo status toggled successfully' });
+    });
+});
 
 // API: Add a new todo
 app.post('/todos', (req, res) => {

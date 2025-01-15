@@ -66,6 +66,27 @@ function App() {
     }
   }
 
+  async function toggleTodoStatus(id) {
+    try {
+        console.log('Toggling status for todo with ID:', id);
+        const response = await axios.put(`${BASE_URL}/todos/${id}/toggle`);
+        console.log('API response:', response.data);
+        setTodos((prevTodos) =>
+            prevTodos.map((todo) =>
+                todo.id === id ? { ...todo, is_done: !todo.is_done } : todo
+            )
+        );
+        setSuccessMessage('Todo status updated successfully!');
+        setTimeout(() => setSuccessMessage(''), 3000);
+    } catch (error) {
+        console.error('Error updating todo status:', error);
+        setErrorMessage('Failed to update todo status!');
+        setTimeout(() => setErrorMessage(''), 3000);
+    }
+}
+
+  
+
 
   // Handle drag and repositioning of the add container
   const handleDrag = (e) => {
@@ -89,11 +110,17 @@ function App() {
           <div className="loading">Loading...</div>
         ) : (
           <div>
+            {successMessage && <div className="success-message">{successMessage}</div>}
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
             {todos.map((todo) => (
-              <div key={todo.id} className="todo-item">
+              <div key={todo.id} className={`todo-item ${todo.is_done ? 'done' : ''}`}>
                 <p>{todo.id}. {todo.name}</p>
                 <div className="todo-buttons">
-                  <Link to={`/todo/${todo.id}`}>
+                  <button onClick={() => toggleTodoStatus(todo.id)}>
+                    {todo.is_done ? 'Mark as not done' : 'Mark as done'}
+                  </button>
+                  
+                  <Link to={`/todo/${todo.id}`}>    
                     <button>Edit</button>
                   </Link>
                   <button onClick={() => deleteTodo(todo.id)}>Delete</button>
@@ -119,8 +146,6 @@ function App() {
         {!isCollapsed && (
           <>
             <h3>Add Todo</h3>
-            {successMessage && <div className="success-message">{successMessage}</div>}
-            {errorMessage && <div className="error-message">{errorMessage}</div>}
             <form onSubmit={addName}>
               <input
                 type="text"
