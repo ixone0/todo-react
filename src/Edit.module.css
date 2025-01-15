@@ -68,8 +68,7 @@ a {
 .successMessage {
     margin-top: 20px;
     padding: 10px;
-    background-color: #4caf50;
-    color: white;
+    color: rgb(70, 225, 83);
     border-radius: 5px;
     font-size: 16px;
 }
@@ -81,4 +80,25 @@ a {
     color: white;
     border-radius: 5px;
     font-size: 16px;
+}
+
+.buttonContainer {
+    display: flex;                /* ใช้ Flexbox */
+    justify-content: flex-end;    /* จัดตำแหน่งให้ชิดขวา */
+    width: 100%;                  /* ให้แน่ใจว่ามีความกว้างเต็มที่ */
+    margin-top: 10px;            /* เพิ่มระยะห่างด้านบน */
+}
+
+.backButton {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.backButton:hover {
+    background-color: #45a049;
 }

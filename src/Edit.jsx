@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Edit.module.css';
 
@@ -66,6 +66,13 @@ function Edit() {
       {/* Display success/error messages */}
       {successMessage && <div className={styles.successMessage}>{successMessage}</div>}
       {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
+
+      {/* Button to go back to App.jsx */}
+      <div className={styles.buttonContainer}>
+        <Link to="/">
+          <button className={styles.backButton}>Back to Todo List</button>
+        </Link>
+      </div>
     </div>
   );
 }
