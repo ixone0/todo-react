@@ -3,16 +3,15 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Edit.module.css';
 
-const BASE_URL = 'https://678247f2c51d092c3dcedd24.mockapi.io';
+const BASE_URL = 'http://localhost:5000';
 
 function Edit() {
   const { id } = useParams();
   const [todo, setTodo] = useState({
-    name: '',
-    status: ''
+    name: ''
   });
-  const [successMessage, setSuccessMessage] = useState('');  // สำหรับข้อความแจ้งเตือนสำเร็จ
-  const [errorMessage, setErrorMessage] = useState('');  // สำหรับข้อความแจ้งเตือนผิดพลาด
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   async function fetchTodo(todoId) {
     try {
@@ -36,10 +35,10 @@ function Edit() {
         name: todo.name
       });
       setSuccessMessage('Todo updated successfully!');
-      setErrorMessage(''); // เคลียร์ข้อความผิดพลาดเมื่อสำเร็จ
+      setErrorMessage('');
     } catch (error) {
       setErrorMessage('Failed to update Todo. Please try again.');
-      setSuccessMessage(''); // เคลียร์ข้อความสำเร็จเมื่อเกิดข้อผิดพลาด
+      setSuccessMessage('');
     }
   }
 
@@ -60,15 +59,11 @@ function Edit() {
             placeholder="Enter new name"
           />
         </div>
-        <div>
-          <strong>Status: </strong>
-          <span className={styles.todoStatus}>{todo.status}</span>
-        </div>
       </div>
 
       <button onClick={updateName}>Update</button>
 
-      {/* แสดงข้อความแจ้งเตือน */}
+      {/* Display success/error messages */}
       {successMessage && <div className={styles.successMessage}>{successMessage}</div>}
       {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
     </div>

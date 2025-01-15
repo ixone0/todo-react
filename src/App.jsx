@@ -3,7 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 
-const BASE_URL = 'https://678247f2c51d092c3dcedd24.mockapi.io';
+const BASE_URL = 'http://localhost:5000';
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -12,9 +12,10 @@ function App() {
   const [position, setPosition] = useState({ top: 20, right: 20 });
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const location = useLocation();
 
   // Fetch todos from API
+
+  
   async function fetchTodo() {
     try {
       const response = await axios.get(`${BASE_URL}/todos`);
@@ -27,6 +28,7 @@ function App() {
 
   // Add a new todo
   async function addName(e) {
+    console.log("ADD NAME")
     e.preventDefault();
     const todoName = e.target.elements.todoName.value.trim();
 
@@ -50,16 +52,20 @@ function App() {
   }
 
   // Delete a todo
+  // Delete a todo (ปรับการจัดการ state ให้รวดเร็ว)
   async function deleteTodo(id) {
     try {
-      setIsLoading(true);
       await axios.delete(`${BASE_URL}/todos/${id}`);
-      await fetchTodo();
-      setIsLoading(false);
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+      setSuccessMessage('Todo deleted successfully!');
+      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       console.error('Error deleting todo:', error);
+      setErrorMessage('Failed to delete todo!');
+      setTimeout(() => setErrorMessage(''), 3000);
     }
   }
+
 
   // Handle drag and repositioning of the add container
   const handleDrag = (e) => {
@@ -73,6 +79,7 @@ function App() {
   useEffect(() => {
     fetchTodo();
   }, []);
+  
 
   return (
     <div className="app-con">
